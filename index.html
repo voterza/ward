@@ -14,12 +14,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ward Boundary Checker - Is your home address in Ward 56?</title>
   
-  <!-- AUTHENTICATION KEYS (hidden in meta tags) -->
   <meta name="district-auth" content="phoenix">
   <meta name="boundary-year" content="2025">
   <meta name="election-type" content="municipal">
   <meta name="region-code" content="za">
-  
+  <meta name="target-ward" content="56">
+
   <!-- Leaflet CSS for maps -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
   
@@ -243,7 +243,6 @@
   </style>
 </head>
 <body>
-  <!-- AUTHENTICATION KEYS (hidden in data attributes) -->
   <div id="ward-data" data-region="za" data-type="municipal" data-district="phoenix" class="ward-auth">
     
     <div class="container">
