@@ -356,28 +356,32 @@
     }
 
     function initializeSecureWardSystem(authKey) {
-      // Check if the secure ward system is loaded
-      if (typeof window.SecureWardSystem !== 'undefined') {
-        // Unlock the protected ward data
-        const wardData = window.SecureWardSystem.unlock(authKey);
-        
-        if (wardData.authenticated) {
-          // Set global variables for the rest of the app
-          window.WARD_BOUNDARIES = { ward56: wardData.ward_boundaries };
-          window.FORM_CONFIG = wardData.form_config;
-          
-          // Initialize the original app logic
-          if (typeof initializeApp === 'function') {
-            initializeApp();
-          }
-        } else {
-          showAuthenticationError();
-        }
-      } else {
-        console.error('Secure ward system not loaded');
-        showAuthenticationError();
+  // Check if the secure ward system is loaded
+  if (typeof window.SecureWardSystem !== 'undefined') {
+    // Get target ward from meta tag
+    const targetWard = document.querySelector('meta[name="target-ward"]')?.content || '56';
+    
+    // Unlock the protected ward data
+    const wardData = window.SecureWardSystem.unlock(authKey, targetWard);
+    
+    if (wardData.authenticated) {
+      // Set global variables for the rest of the app
+      window.WARD_BOUNDARIES = wardData.ward_boundaries;
+      window.FORM_CONFIG = wardData.form_config;
+      window.TARGET_WARD = targetWard;
+      
+      // Initialize the original app logic
+      if (typeof initializeApp === 'function') {
+        initializeApp();
       }
+    } else {
+      showAuthenticationError();
     }
+  } else {
+    console.error('Secure ward system not loaded');
+    showAuthenticationError();
+  }
+}
 
     function showAuthenticationError() {
       document.body.innerHTML = `
